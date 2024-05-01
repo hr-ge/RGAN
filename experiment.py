@@ -33,7 +33,10 @@ for (k, v) in settings.items(): print(v, '\t',  k)
 # add the settings to local environment
 # WARNING: at this point a lot of variables appear
 locals().update(settings)
-json.dump(settings, open('./experiments/settings/' + identifier + '.txt', 'w'), indent=0)
+
+data = data.replace('_train.npz', '')
+
+json.dump(settings, open('./experiments/settings/' + data + '.txt', 'w'), indent=0)
 
 if not data == 'load':
     data_path = './experiments/data/' + identifier + '.data.npy'
@@ -272,6 +275,12 @@ for epoch in range(num_epochs):
     if epoch % 50 == 0:
         model.dump_parameters(identifier + '_' + str(epoch), sess)
 
+    np.savez(f'./outputs/sine_experiment/data/{data}_gen.npz', eval_sample)
+    np.savez_compressed(f'../TSGBench/data/rgan/sine_experiment/{data}_gen.npz', eval_sample)
+
+np.savez(f'./outputs/sine_experiment/data/{data}_gen.npz', eval_sample)
+np.savez_compressed(f'../TSGBench/data/rgan/sine_experiment/{data}_gen.npz', eval_sample)
+print("finished and saved stuff (hopefully)")
 trace.flush()
 plotting.plot_trace(identifier, xmax=num_epochs, dp=dp)
 model.dump_parameters(identifier + '_' + str(epoch), sess)

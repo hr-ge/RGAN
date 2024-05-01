@@ -2,6 +2,7 @@
 # Utility functions that don't fit in other scripts
 import argparse
 import json
+import os
 
 def rgan_options_parser():
     """
@@ -15,7 +16,7 @@ def rgan_options_parser():
     parser.add_argument('--data', help='what kind of data to train with?',
             default='gp_rbf',
             choices=['gp_rbf', 'sine', 'mnist', 'load',
-                'resampled_eICU', 'eICU_task'])
+                'resampled_eICU', 'eICU_task'] + os.listdir('./experiments/data'))
     parser.add_argument('--num_samples', type=int, help='how many training examples \
                     to generate?', default=28*5*100)
     parser.add_argument('--seq_length', type=int, default=30)
